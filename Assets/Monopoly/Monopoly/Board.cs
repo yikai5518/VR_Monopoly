@@ -563,8 +563,7 @@ namespace MONOPOLY
                 }
                 else if (owner == turn)
                 {
-                    Player.EDecision decision = players[turn].DecideBuildHouse(index);
-                    BuildHouses(index);
+                    
                 }
                 else if (!mortgaged[index])
                 {
@@ -1216,33 +1215,6 @@ namespace MONOPOLY
             }
 
             return sets.ToArray();
-        }
-
-        public void BuildHouses(int index)
-        {
-            int last = 2;
-
-            if (set == 0 || set == 7)
-            {
-                last = 1;
-            }
-
-            for (int i = 0; i < amount; i++)
-            {
-                //find smallest house number from back
-                int bj = last;
-
-                for (int j = last - 1; j >= 0; j--)
-                {
-                    if (houses[SETS[set, bj]] > houses[SETS[set, j]])
-                    {
-                        bj = j;
-                    }
-                }
-
-                houses[SETS[set, bj]]++;
-                // adapter.SetHouse(SETS[set, bj], houses[SETS[set, bj]]);
-            }
         }
 
         public void SellHouses(int set, int amount)
