@@ -62,7 +62,7 @@ namespace MONOPOLY
 
         public override EDecision DecideBuildHouse(int index)
         {
-            return PromptYesNoDecision();
+            return PromptYesNoDecision(Board.BUILD[Board.property[index]]);
         }
     }
 }

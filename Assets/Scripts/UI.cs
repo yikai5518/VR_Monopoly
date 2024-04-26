@@ -8,9 +8,9 @@ namespace PlayerInterface
 {
     public class UI : MonoBehaviour
     {
-        public TMP_Text decisionText;
-        public Button yesButton;
-        public Button noButton;
+        public GameObject decisionText;
+        public GameObject yesButton;
+        public GameObject noButton;
         
         // Enum to keep track of decision
         private EDecision currentDecision = EDecision.NO; // Default to NO
@@ -34,7 +34,7 @@ namespace PlayerInterface
         {
             if (decisionText != null)
             {
-                decisionText.text = $"Cost of buying/upgrading property: ${0}";
+                decisionText.GetComponent<TextMeshProUGUI>().text = $"Cost of buying/upgrading property: ${0}";
             }
             else
             {
@@ -44,7 +44,7 @@ namespace PlayerInterface
             // And the same for buttons
             if (yesButton != null)
             {
-                yesButton.gameObject.SetActive(true);
+                yesButton.SetActive(true);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace PlayerInterface
 
             if (noButton != null)
             {
-                noButton.gameObject.SetActive(true);
+                noButton.SetActive(true);
             }
             else
             {
@@ -65,16 +65,16 @@ namespace PlayerInterface
             // noButton.gameObject.SetActive(false);
 
             // Add button listeners
-            yesButton.onClick.AddListener(OnYesClicked);
-            noButton.onClick.AddListener(OnNoClicked);
+            yesButton.GetComponent<Button>().onClick.AddListener(OnYesClicked);
+            noButton.GetComponent<Button>().onClick.AddListener(OnNoClicked);
         }
 
         public EDecision PromptYesNoDecision(int propertyCost)
         {
             currentDecision = EDecision.NONE; // Reset the decision
-            decisionText.text = $"Cost of buying/upgrading property: ${propertyCost}";
-            yesButton.gameObject.SetActive(true);
-            noButton.gameObject.SetActive(true);
+            decisionText.GetComponent<TextMeshProUGUI>().text = $"Cost of buying/upgrading property: ${propertyCost}";
+            yesButton.SetActive(true);
+            noButton.SetActive(true);
             return currentDecision;
         }
 
