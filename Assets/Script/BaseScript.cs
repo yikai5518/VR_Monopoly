@@ -139,6 +139,41 @@ public class BaseScript : MonoBehaviour
     {
     }
 
+    public void SpawnHouse()
+    {
+        if (curIndex % 10 == 0 || curIndex < 0 || curIndex >= 40) throw new System.ArgumentException();
+
+        Spawner spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>();
+        Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
+
+        float offset = curIndex * 0.8f + num_houses[curIndex] * 0.25f;
+        if (curIndex > 0 && curIndex < 10)
+        {
+            curIndex -= 1;
+            Vector3 pos = new Vector3(0.161f, 0.25f, 0.55f + offset);
+            spawner.SpawnHouse(playernum, pos, rot);
+        }
+        else if (curIndex > 10 && curIndex < 20)
+        {
+            curIndex -= 11;
+            Vector3 pos = new Vector3(0.55f + offset, 0.25f, 7.8f);
+            spawner.SpawnHouse(playernum, pos, rot);
+        }
+        else if (curIndex > 20 && curIndex < 30)
+        {
+            curIndex -= 21;
+            Vector3 pos = new Vector3(7.8f, 0.25f, 7.4f - offset);
+            spawner.SpawnHouse(playernum, pos, rot);
+        }
+        else if (curIndex > 30 && curIndex < 40)
+        {
+            curIndex -= 31;
+            Vector3 pos = new Vector3(7.4f - offset, 0.25f, 0.18f);
+            spawner.SpawnHouse(playernum, pos, rot);
+        }
+        num_houses[curIndex] += 1;
+    }
+
     public void purchase()
     {
         TextMeshProUGUI txt;
@@ -162,35 +197,8 @@ public class BaseScript : MonoBehaviour
                     .GetComponent<TextMeshProUGUI>();
             txt.text += (landNameArr[curIndex] + "\n");
         }
-        // if (index % 10 == 0 || index < 0 || index >= 40) throw new System.ArgumentException();
 
-        //     Spawner spawner = GameObject.FindGameObjectWithTag("Script").GetComponent<Spawner>();
-        //     Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
-        //     if (index > 0 && index < 10)
-        //     {
-        //         index -= 1;
-        //         Vector3 pos = new Vector3(-34 + index * 8 + num_houses[index] * 2, -10, 38);
-        //         spawner.SpawnHouse(playernum, pos, rot);
-        //     }
-        //     else if (index > 10 && index < 20)
-        //     {
-        //         index -= 11;
-        //         Vector3 pos = new Vector3(38, -10, 35 - index * 8 - num_houses[index] * 2);
-        //         spawner.SpawnHouse(playernum, pos, rot);
-        //     }
-        //     else if (index > 20 && index < 30)
-        //     {
-        //         index -= 21;
-        //         Vector3 pos = new Vector3(30 - index * 8 - num_houses[index] * 2, -10, -38);
-        //         spawner.SpawnHouse(playernum, pos, rot);
-        //     }
-        //     else if (index > 30 && index < 40)
-        //     {
-        //         index -= 31;
-        //         Vector3 pos = new Vector3(-38, -10, -29 + index * 8 + num_houses[index] * 2);
-        //         spawner.SpawnHouse(playernum, pos, rot);
-        //     }
-        //     num_houses[index] += 1;
+        SpawnHouse();
     }
 
     
