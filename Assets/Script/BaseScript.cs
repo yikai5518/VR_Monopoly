@@ -6,6 +6,21 @@ using UnityEngine;
 
 public class BaseScript : MonoBehaviour
 {
+    public enum LandStatus
+    {
+        PROPERTY,
+        TAX,
+        RAILROAD,
+        UTILITY,
+        CHANCE,
+        CHEST,
+        START,
+        GOTOJAIL,
+        JAIL,
+        FREEPARKING
+    };
+
+
     string[]
         landNameArr =
         {
@@ -14,17 +29,17 @@ public class BaseScript : MonoBehaviour
             "",
             "San Marina Harbor",
             "",
-            "",
+            "Atlantic Ocean",
             "Point Reyes",
             "",
             "Monterey Bay",
             "La Jolla Cove",
             "",
             "Hudson River",
-            "",
+            "Water Current",
             "Blackney Point",
             "Moss Landing",
-            "",
+            "Pacific Ocean",
             "Ross Sea",
             "",
             "Bering Sea",
@@ -34,17 +49,17 @@ public class BaseScript : MonoBehaviour
             "",
             "Falkand Islands",
             "King George Island",
-            "",
+            "North Sea",
             "Wellington New Zealand",
             "Galapagos Islands",
-            "",
+            "Schools of Fish",
             "Campbell Island",
             "",
             "South Orkney",
             "Cape Crozier",
             "",
             "Ballestas Peru",
-            "",
+            "Arctic Circle",
             "",
             "Tasmania",
             "",
@@ -96,12 +111,11 @@ public class BaseScript : MonoBehaviour
             350
         };
 
-    int[] landStatus = new int[40];
+    LandStatus[] landStatus = new LandStatus[40];
 
     Land[] lands = new Land[40];
 
-    public int p1money;
-    public int p2money;
+    public int[] funds;
 
     public string whatUserCanDo = "";
 
@@ -109,24 +123,86 @@ public class BaseScript : MonoBehaviour
 
     public int curIndex = 0;
     private int[] num_houses;
+    private int[] ownership;
+
+    public static int[] build_costs = new int[40] {
+        0, 50, 0, 50, 0, 0, 50, 0, 50, 50,
+        0, 100, 0, 100, 100, 0, 100, 0, 100, 100,
+        0, 150, 0, 150, 150, 0, 150, 150, 0, 150,
+        0, 200, 200, 0, 200, 0, 0, 200, 0, 200
+    };
+
+    public static int[,] rent = new int[40, 4] {
+        { 0, 0, 0, 0 },
+        { 2, 10, 30, 90 },
+        { 0, 0, 0, 0 },
+        { 4, 20, 60, 180 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 6, 30, 90, 270 },
+        { 0, 0, 0, 0 },
+        { 6, 30, 90, 270 },
+        { 8, 40, 100, 300 },
+        { 0, 0, 0, 0 },
+        { 10, 50, 150, 450 },
+        { 0, 0, 0, 0 },
+        { 10, 50, 150, 450 },
+        { 12, 60, 180, 500 },
+        { 0, 0, 0, 0 },
+        { 14, 70, 200, 550 },
+        { 0, 0, 0, 0 },
+        { 14, 70, 200, 550 },
+        { 16, 80, 220, 600 },
+        { 0, 0, 0, 0 },
+        { 18, 90, 250, 700 },
+        { 0, 0, 0, 0 },
+        { 18, 90, 250, 700 },
+        { 20, 100, 300, 750 },
+        { 0, 0, 0, 0 },
+        { 22, 110, 330, 800 },
+        { 22, 110, 330, 800 },
+        { 0, 0, 0, 0 },
+        { 22, 120, 360, 850 },
+        { 0, 0, 0, 0 },
+        { 26, 130, 390, 900 },
+        { 26, 130, 390, 900 },
+        { 0, 0, 0, 0 },
+        { 28, 150, 450, 1000 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 35, 175, 500, 1100 },
+        { 0, 0, 0, 0 },
+        { 50, 200, 600, 1400 }
+    };
 
     void Awake()
     {
-        p1money = 1300;
-        p2money = 1300;
+        funds = new int[3];
+        funds[1] = funds[2] = 1500;
+
+        ownership = new int[40];
         for (int i = 0; i < lands.Length; i++)
         {
-            lands[i] = new Land(landNameArr[i], landPriceArr[i], 0);
+            lands[i] = new Land(landNameArr[i], landPriceArr[i], 0, build_costs[i]);
+            landStatus[i] = LandStatus.PROPERTY;
+            ownership[i] = 0;
         }
-        landStatus[7] = 3;
-        landStatus[22] = 3;
-        landStatus[36] = 3; // chance
-        landStatus[4] = 4; // pay
-        landStatus[38] = 4;
-        landStatus[30] = 5; // go to jail
-        landStatus[20] = 6; // free parking
-        landStatus[0] = 7; // start,no effect, will give 200 inside players script.
-        landStatus[10] = 7; // jail, but no effect
+
+        landStatus[4] = landStatus[38] = LandStatus.TAX;
+        landStatus[5] = landStatus[15] = landStatus[25] = landStatus[35] = LandStatus.RAILROAD;
+        landStatus[12] = landStatus[28] = LandStatus.UTILITY;
+        landStatus[7] = landStatus[22] = landStatus[36] = LandStatus.CHANCE;
+        landStatus[2] = landStatus[17] = landStatus[33] = LandStatus.CHEST;
+        landStatus[0] = LandStatus.START;
+        landStatus[10] = LandStatus.JAIL;
+        landStatus[20] = LandStatus.FREEPARKING;
+        landStatus[30] = LandStatus.GOTOJAIL;
+
+        num_houses = new int[40];
+        for (int i = 0; i < 40; ++i)
+        {
+            num_houses[i] = 0;
+        }
     }
 
     // Start is called before the first frame update
@@ -144,43 +220,48 @@ public class BaseScript : MonoBehaviour
         if (curIndex % 10 == 0 || curIndex < 0 || curIndex >= 40) throw new System.ArgumentException();
 
         Spawner spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>();
-        Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
 
-        float offset = curIndex * 0.8f + num_houses[curIndex] * 0.25f;
         if (curIndex > 0 && curIndex < 10)
         {
-            curIndex -= 1;
+            float offset = (curIndex - 1) * 0.8f + num_houses[curIndex] * 0.25f;
             Vector3 pos = new Vector3(0.161f, 0.25f, 0.55f + offset);
-            spawner.SpawnHouse(playernum, pos, rot);
+            Quaternion rot = Quaternion.Euler(new Vector3(0, 0, 0));
+            spawner.SpawnHouse(playernum - 1, pos, rot);
         }
         else if (curIndex > 10 && curIndex < 20)
         {
-            curIndex -= 11;
+            float offset = (curIndex - 11) * 0.8f + num_houses[curIndex] * 0.25f;
             Vector3 pos = new Vector3(0.55f + offset, 0.25f, 7.8f);
-            spawner.SpawnHouse(playernum, pos, rot);
+            Quaternion rot = Quaternion.Euler(new Vector3(0, 90, 0));
+            spawner.SpawnHouse(playernum - 1, pos, rot);
         }
         else if (curIndex > 20 && curIndex < 30)
         {
-            curIndex -= 21;
+            float offset = (curIndex - 21) * 0.8f + num_houses[curIndex] * 0.25f;
             Vector3 pos = new Vector3(7.8f, 0.25f, 7.4f - offset);
-            spawner.SpawnHouse(playernum, pos, rot);
+            Quaternion rot = Quaternion.Euler(new Vector3(0, 180, 0));
+            spawner.SpawnHouse(playernum - 1, pos, rot);
         }
         else if (curIndex > 30 && curIndex < 40)
         {
-            curIndex -= 31;
+            float offset = (curIndex - 31) * 0.8f + num_houses[curIndex] * 0.25f;
             Vector3 pos = new Vector3(7.4f - offset, 0.25f, 0.18f);
-            spawner.SpawnHouse(playernum, pos, rot);
-        }
+            Quaternion rot = Quaternion.Euler(new Vector3(0, 270, 0));
+            spawner.SpawnHouse(playernum - 1, pos, rot);
+        } 
         num_houses[curIndex] += 1;
     }
 
     public void purchase()
     {
+        //if (ownership[curIndex] == playernum)
+        //    return;
+
         TextMeshProUGUI txt;
         if (playernum == 1)
         {
-            p1money -= lands[curIndex].price;
-            landStatus[curIndex] = 1;
+            funds[1] -= lands[curIndex].price;
+            ownership[curIndex] = 1;
             txt =
                 GameObject
                     .Find("Player1LandsList")
@@ -189,8 +270,8 @@ public class BaseScript : MonoBehaviour
         }
         else if (playernum == 2)
         {
-            p2money -= lands[curIndex].price;
-            landStatus[curIndex] = 2;
+            funds[2] -= lands[curIndex].price;
+            ownership[curIndex] = 2;
             txt =
                 GameObject
                     .Find("Player2LandsList")
@@ -207,11 +288,11 @@ public class BaseScript : MonoBehaviour
     {
         if (playernum == 1)
         {
-            p1money -= 2 * landPriceArr[curIndex];
+            funds[1] -= 2 * landPriceArr[curIndex];
         }
         else
         {
-            p2money -= 2 * landPriceArr[curIndex];
+            funds[2] -= 2 * landPriceArr[curIndex];
         }
         lands[curIndex].numOfBuildings++;
         lands[curIndex].price += 2 * landPriceArr[curIndex];
@@ -232,134 +313,70 @@ public class BaseScript : MonoBehaviour
         this.curIndex = curIndex;
 
         //whatusercando: = based on landstatus,
-        if (landStatus[curIndex] == 0)
+        if (landStatus[curIndex] == LandStatus.PROPERTY ||
+            landStatus[curIndex] == LandStatus.RAILROAD ||
+            landStatus[curIndex] == LandStatus.UTILITY
+        )
         {
-            // if the land is not owned by anyone
-            if (playerNum == 1)
+            if (ownership[curIndex] == 0)
             {
-                // if p1 lands on it
-                if (p1money >= lands[curIndex].price)
-                {
-                    // if p1 has enough money to buy a land
-                    //print("this land is not owned by anyone, would you like to purchase this land? y - yes, n - no");
+                // Purchase Property
+                if (funds[playerNum] >= lands[curIndex].price)
                     whatUserCanDo = "purchase";
-                }
                 else
-                {
                     whatUserCanDo = "";
-                } // if p1 does not have have money, nothing p1 can do
             }
             else
             {
-                // if p2 lands on the land
-                if (p2money >= lands[curIndex].price)
+                if (ownership[curIndex] == playerNum)
                 {
-                    // if p2 have enough money to buy the land
-                    //print("this land is not owned by anyone, would you like to purchase this land? y - yes, n - no");
-                    whatUserCanDo = "purchase";
+                    if (landStatus[curIndex] == LandStatus.PROPERTY)
+                    {
+                        // Build House
+                        if (funds[playerNum] >= lands[curIndex].build && lands[curIndex].numOfBuildings < 3)
+                            whatUserCanDo = "build";
+                        else
+                            whatUserCanDo = "";
+                    }
                 }
                 else
                 {
-                    whatUserCanDo = "";
-                } // if p2 does not have enough money to buy the land
+                    // Pay Rent
+                    // "sell"
+                }
             }
+
+            UpdateFunds();
         }
-        else if (landStatus[curIndex] == 1)
+        else if (landStatus[curIndex] == LandStatus.TAX)
         {
-            // if the land is owned by player 1
-            if (playerNum == 1)
-            {
-                // if player1 lands on p1's property
-                if (
-                    p1money < 1.5 * lands[curIndex].price ||
-                    lands[curIndex].numOfBuildings == 3
-                )
-                {
-                    // if p1's money is not enough to add a building
-                    // print not enough money to build or the land has already 3 buildings
-                    whatUserCanDo = "";
-                }
-                else
-                {
-                    whatUserCanDo = "build";
-                } // if p1 has enough money to build
-            }
-            else
-            {
-                // if p2 ladns on p1's property
-                if (p2money < lands[curIndex].price)
-                {
-                    whatUserCanDo = "sell";
-                } // if p2 does not have enough money to pay
-                else
-                {
-                    // if p2 have enough money to pay for the rent
-                    p2money -= lands[curIndex].price;
-                    whatUserCanDo = "";
-                }
-            }
+            if (curIndex == 4)
+                funds[playerNum] -= 150;
+            else if (curIndex == 38)
+                funds[playerNum] -= 200;
+
+            UpdateFunds();
         }
-        else if (landStatus[curIndex] == 2)
+        else if (landStatus[curIndex] == LandStatus.CHANCE)
         {
-            // it the lands is owned by p2
-            if (playerNum == 2)
-            {
-                // if p2 lands on p2's property
-                if (
-                    p2money < 1.5 * lands[curIndex].price ||
-                    lands[curIndex].numOfBuildings == 3
-                )
-                {
-                    // if p2 does not have enough money to build
-                    // print not enough money to build or the land has already 3 building
-                    whatUserCanDo = "";
-                }
-                else
-                {
-                    whatUserCanDo = "build";
-                }
-            }
-            else
-            {
-                // if p1 lands on p2's property
-                if (p1money < lands[curIndex].price)
-                {
-                    whatUserCanDo = "sell";
-                } // if p1 does not have any money to pay the rent
-                else
-                {
-                    whatUserCanDo = "";
-                    p1money -= lands[curIndex].price; // if p1 have enough money, just pay the rent
-                }
-            }
+            
         }
-        else if (landStatus[curIndex] == 3)
+        else if (landStatus[curIndex] == LandStatus.CHEST)
         {
-            // user lands on get 100
-            if (playerNum == 1)
-            {
-                p1money += 100;
-                whatUserCanDo = "";
-            }
-            else
-            {
-                p2money += 100;
-                whatUserCanDo = "";
-            }
+            
         }
-        else if (landStatus[curIndex] == 4)
+        else if (landStatus[curIndex] == LandStatus.START)
         {
-            // user lands on pay 100
-            if (playerNum == 1)
-            {
-                p1money -= 100;
-                whatUserCanDo = "";
-            }
+            //funds[playerNum] += 200;
+
+            UpdateFunds();
+        }
+        else if (landStatus[curIndex] == LandStatus.GOTOJAIL)
+        {
+            if (playernum == 1)
+                FindObjectOfType<Player1Script>().goToJail();
             else
-            {
-                p2money -= 100;
-                whatUserCanDo = "";
-            }
+                FindObjectOfType<Player2Script>().goToJail();
         }
 
         //button on, purchase,build,sell
@@ -376,12 +393,6 @@ public class BaseScript : MonoBehaviour
     //button on, purchase,build,sell
     public void onyesclick()
     {
-        TextMeshProUGUI txt;
-        txt = GameObject.Find("Player1Money").GetComponent<TextMeshProUGUI>();
-        txt.text = ("$" + p1money);
-        txt = GameObject.Find("Player2Money").GetComponent<TextMeshProUGUI>();
-        txt.text = ("$" + p2money);
-
         if (whatUserCanDo == "purchase")
         {
             purchase();
@@ -395,11 +406,20 @@ public class BaseScript : MonoBehaviour
             //sell();
         }
 
-        // close the button tab
+        UpdateFunds();
     }
 
     public void onnoclick()
     {
         //close the button tab
+    }
+
+    private void UpdateFunds()
+    {
+        TextMeshProUGUI txt;
+        txt = GameObject.Find("Player1Money").GetComponent<TextMeshProUGUI>();
+        txt.text = ("$" + funds[1]);
+        txt = GameObject.Find("Player2Money").GetComponent<TextMeshProUGUI>();
+        txt.text = ("$" + funds[2]);
     }
 }

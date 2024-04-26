@@ -60,41 +60,23 @@ public class Player1Script : MonoBehaviour
                 waypoints[waypointIndex % waypoints.Length].transform.position
             )
             {   
-                if(transform.position == waypoints[0].transform.position){bs.p1money+=200;} // if p1 passes by the start, +200 to p1's money
+                if(transform.position == waypoints[0].transform.position){bs.funds[1]+=200;} // if p1 passes by the start, +200 to p1's money
                 waypointIndex += 1;
             }
         }
         else
         {
             curindex = waypointIndex - 1;
-            bs.arrivedOnCity(1, curindex % 32);
-            // // call purchase or not function here..
-            // if (
-            //     curindex != 0 &&
-            //     curindex != 6 &&
-            //     curindex != 8 &&
-            //     curindex != 13 &&
-            //     curindex != 16 &&
-            //     curindex != 18 &&
-            //     curindex != 24 &&
-            //     curindex != 27
-            // )
-            // {
-            //     bs.arrivedOnCity(1, curindex % 32);
-            // }
-            //else call other function for special cards
+            bs.arrivedOnCity(1, curindex % 40);
             moveAllowed = false;
-
-            //reable the dice button
-            print(curindex % 32);
         }
     }
 
     public void goToJail()
     {
-        transform.position = waypoints[24].transform.position;
-        waypointIndex = 25;
-        curindex = 24;
+        transform.position = waypoints[10].transform.position;
+        waypointIndex = 11;
+        curindex = 10;
         moveAllowed = false;
     }
 }

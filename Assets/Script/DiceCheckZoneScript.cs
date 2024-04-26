@@ -35,6 +35,9 @@ public class DiceCheckZoneScript : MonoBehaviour
 
     public Text txt;
 
+    public static bool dice1Collected;
+    public static bool dice2Collected;
+
     // public int [] p1sample = {1,2,3,4,5,6,6,5,4,3,2,1};
     // public int [] p2sample = {1,2,3,4,5,6,6,5,4,3,2,1};
     // Update is called once per frame
@@ -42,6 +45,9 @@ public class DiceCheckZoneScript : MonoBehaviour
     {
         player1 = FindObjectOfType<Player1Script>(); // when the game start assign player1script to player1 var
         player2 = FindObjectOfType<Player2Script>();
+
+        dice1Collected = false;
+        dice2Collected = false;
     }
 
     void FixedUpdate()
@@ -52,17 +58,20 @@ public class DiceCheckZoneScript : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
+        string col_name = col.gameObject.transform.parent.name;
+        bool flag = col_name == "Dice1" ? dice1Collected : dice2Collected;
+
         // execute when a one side of the dice collide with the dice check zone
         if (
             diceVelocity.x == 0f &&
             diceVelocity.y == 0f &&
             diceVelocity.z == 0f &&
-            diceNumCollected < 2
+            diceNumCollected < 2 &&
+            !flag
         )
         {
             // if the dice velocity =0, means that the dice has stopped
-            switch (col.gameObject.name // every side of the dice has sphere collider, if this switch check the name of the collider to find the value of rolled dice
-            )
+            switch (col.gameObject.name) // every side of the dice has sphere collider, if this switch check the name of the collider to find the value of rolled dice
             {
                 case "Side1": // if it is side 1, means that the dice you rolled is 6.
                     diceNumCollected += 1; // dice num collected is to count how many dices has been rolled, since we are rolling two dices, this if statement will not run
@@ -145,6 +154,10 @@ public class DiceCheckZoneScript : MonoBehaviour
                     //DiceNumberTextScript.diceNumber = 1;
                     break;
             }
+            if (col_name == "Dice1")
+                dice1Collected = true;
+            else
+                dice2Collected = true;
 
             if (diceNumCollected == 2)
             {

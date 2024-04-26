@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WaypointsP1
   - WaypointsP2
+  - Spawner
   layers:
   - Default
   - TransparentFX

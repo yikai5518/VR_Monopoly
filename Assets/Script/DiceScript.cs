@@ -26,6 +26,7 @@ public class DiceScript : MonoBehaviour
         rb.useGravity = true;
 
         DiceCheckZoneScript.diceNumCollected = 0;
+        DiceCheckZoneScript.dice1Collected = false;
         float dirX = Random.Range(0, 500);
         float dirY = Random.Range(0, 500);
         float dirZ = Random.Range(0, 500);
