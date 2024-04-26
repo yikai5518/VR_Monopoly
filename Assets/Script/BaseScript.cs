@@ -254,8 +254,8 @@ public class BaseScript : MonoBehaviour
 
     public void purchase()
     {
-        //if (ownership[curIndex] == playernum)
-        //    return;
+        if (ownership[curIndex] == playernum)
+            return;
 
         TextMeshProUGUI txt;
         if (playernum == 1)
@@ -320,6 +320,7 @@ public class BaseScript : MonoBehaviour
         {
             if (ownership[curIndex] == 0)
             {
+                print(funds[playerNum]);
                 // Purchase Property
                 if (funds[playerNum] >= lands[curIndex].price)
                     whatUserCanDo = "purchase";
@@ -393,8 +394,10 @@ public class BaseScript : MonoBehaviour
     //button on, purchase,build,sell
     public void onyesclick()
     {
+        print("yes clicekd");
         if (whatUserCanDo == "purchase")
         {
+            print("purchasing");
             purchase();
         }
         else if (whatUserCanDo == "build")
