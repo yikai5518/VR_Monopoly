@@ -1,0 +1,34 @@
+{
+    "name": "RightTrigger",
+    "maps": [
+        {
+            "name": "XRI Default Action Map",
+            "id": "b596eb9b-a7f0-4be4-97cc-d8fc0f34900f",
+            "actions": [
+                {
+                    "name": "RightTriggerPressed",
+                    "type": "Value",
+                    "id": "bceee237-a730-46b7-a488-653cf346ff94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "49569144-b4d9-479e-808d-2e02f9ba4571",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightTriggerPressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
