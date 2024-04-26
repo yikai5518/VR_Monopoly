@@ -117,7 +117,7 @@ public class BaseScript : MonoBehaviour
 
     public int[] funds;
 
-    public string whatUserCanDo = "";
+    private static string whatUserCanDo;
 
     public int playernum = 0;
 
@@ -203,6 +203,9 @@ public class BaseScript : MonoBehaviour
         {
             num_houses[i] = 0;
         }
+
+        whatUserCanDo = "";
+        playernum = 1;
     }
 
     // Start is called before the first frame update
@@ -257,6 +260,7 @@ public class BaseScript : MonoBehaviour
         if (ownership[curIndex] == playernum)
             return;
 
+        print("purchase()");
         TextMeshProUGUI txt;
         if (playernum == 1)
         {
@@ -321,9 +325,13 @@ public class BaseScript : MonoBehaviour
             if (ownership[curIndex] == 0)
             {
                 print(funds[playerNum]);
+                print(lands[curIndex].price);
                 // Purchase Property
                 if (funds[playerNum] >= lands[curIndex].price)
+                {
+                    print("Can be purchased");
                     whatUserCanDo = "purchase";
+                }
                 else
                     whatUserCanDo = "";
             }
@@ -382,6 +390,7 @@ public class BaseScript : MonoBehaviour
                 FindObjectOfType<Player2Script>().goToJail();
         }
 
+        print(whatUserCanDo);
         //button on, purchase,build,sell
         if (
             whatUserCanDo == "purchase" ||
@@ -397,6 +406,7 @@ public class BaseScript : MonoBehaviour
     public void onyesclick()
     {
         print("yes clicekd");
+        print(whatUserCanDo);
         if (whatUserCanDo == "purchase")
         {
             print("purchasing");
@@ -412,11 +422,13 @@ public class BaseScript : MonoBehaviour
         }
 
         UpdateFunds();
+        playernum = playernum == 1 ? 2 : 1;
     }
 
     public void onnoclick()
     {
         //close the button tab
+        playernum = playernum == 1 ? 2 : 1;
     }
 
     private void UpdateFunds()

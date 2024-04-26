@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player1Script : MonoBehaviour
 {
-    BaseScript bs;
+    public BaseScript bs;
 
     public Transform[] waypoints;
 

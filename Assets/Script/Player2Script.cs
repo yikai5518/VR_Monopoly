@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player2Script : MonoBehaviour
 {
-    BaseScript bs;
+    public BaseScript bs;
 
     public Transform[] waypoints;
 
@@ -19,8 +19,6 @@ public class Player2Script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bs = FindObjectOfType<BaseScript>();
-
         GameObject waypointsp1 = GameObject.FindGameObjectWithTag("WaypointsP2");
         waypoints = new Transform[40];
         waypoints[0] = waypointsp1.transform.GetChild(0);

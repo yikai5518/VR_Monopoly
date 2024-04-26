@@ -18,9 +18,8 @@ public class DiceScript : MonoBehaviour
     void Update()
     {
         diceVelocity = rb.velocity;
-
-        
     }
+
     public void RollDie()
     {
         rb.useGravity = true;
