@@ -9,6 +9,7 @@ public class BaseScript : MonoBehaviour
     string[]
         landNameArr =
         {
+            "",
             "San Diego Drive",
             "",
             "San Marina Harbor",
@@ -18,6 +19,7 @@ public class BaseScript : MonoBehaviour
             "",
             "Monterey Bay",
             "La Jolla Cove",
+            "",
             "Hudson River",
             "",
             "Blackney Point",
@@ -25,9 +27,14 @@ public class BaseScript : MonoBehaviour
             "",
             "Ross Sea",
             "",
+            "Bering Sea",
+            "Baikal Lake",
+            "",
             "South Georgia",
+            "",
             "Falkand Islands",
             "King George Island",
+            "",
             "Wellington New Zealand",
             "Galapagos Islands",
             "",
@@ -52,7 +59,7 @@ public class BaseScript : MonoBehaviour
             0,
             90,
             0,
-            0,
+            200,
             120,
             0,
             130,
@@ -65,6 +72,7 @@ public class BaseScript : MonoBehaviour
             200,
             180,
             0,
+            200,
             200,
             0,
             200,
@@ -110,10 +118,11 @@ public class BaseScript : MonoBehaviour
         {
             lands[i] = new Land(landNameArr[i], landPriceArr[i], 0);
         }
-        landStatus[14] = 3; // get
-        landStatus[26] = 3;
-        landStatus[5] = 4; // pay
-        landStatus[19] = 4;
+        landStatus[7] = 3;
+        landStatus[22] = 3;
+        landStatus[36] = 3; // chance
+        landStatus[4] = 4; // pay
+        landStatus[38] = 4;
         landStatus[8] = 5; // go to jail
         landStatus[16] = 6; // free parking
         landStatus[0] = 7; // start,no effect, will give 200 inside players script.
