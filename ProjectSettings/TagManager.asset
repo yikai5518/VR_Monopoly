@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Dice
   - Script
+  - FundText
+  - YesButton
+  - UI
   layers:
   - Default
   - TransparentFX

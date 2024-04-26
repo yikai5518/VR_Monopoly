@@ -14,9 +14,9 @@ namespace MONOPOLY
             items = new List<int>();
         }
 
-        private EDecision PromptYesNoDecision()
+        private EDecision PromptYesNoDecision(int cost)
         {
-            UI.EDecision decision = UI.GetYesNoDecision();
+            UI.EDecision decision = ui.PromptYesNoDecision(cost);
 
             if (decision == UI.EDecision.YES)
                 return EDecision.YES;
@@ -26,7 +26,7 @@ namespace MONOPOLY
 
         public override EDecision DecideBuy(int index)
         {
-            return PromptYesNoDecision();
+            return PromptYesNoDecision(Board.COSTS[index]);
         }
 
         public override EJailDecision DecideJail()
@@ -36,12 +36,12 @@ namespace MONOPOLY
 
         public override EDecision DecideMortgage(int index)
         {
-            return PromptYesNoDecision();
+            return EDecision.YES;
         }
 
         public override EDecision DecideAdvance(int index)
         {
-            return PromptYesNoDecision();
+            return EDecision.YES;
         }
 
         //public override int DecideBuildHouse(int set)

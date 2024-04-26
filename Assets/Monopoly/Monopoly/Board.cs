@@ -164,13 +164,15 @@ namespace MONOPOLY
 
             // adapter = _adapter;
 
-            for (int i = 0; i < PLAYER_COUNT; i++)
-            {
-                players[i] = new Player();
+            // for (int i = 0; i < PLAYER_COUNT; i++)
+            // {
+            //     players[i] = new Player();
 
-                //adapter.SetPosition(i, players[i].position);
-                // adapter.SetMoney(i, players[i].funds);           
-            }
+            //     //adapter.SetPosition(i, players[i].position);
+            //     // adapter.SetMoney(i, players[i].funds);           
+            // }
+            players[0] = new HumanPlayer();
+            players[1] = new Player();
 
             remaining = PLAYER_COUNT;
 
