@@ -160,10 +160,8 @@ namespace MONOPOLY
             players = new Player[PLAYER_COUNT];
             random = new RNG();
 
-            for (int i = 0; i < PLAYER_COUNT; i++)
-            {
-                players[i] = new Player();       
-            }
+            players[0] = new HumanPlayer();
+            players[1] = new Player();
 
             remaining = PLAYER_COUNT;
 

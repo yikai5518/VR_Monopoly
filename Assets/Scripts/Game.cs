@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 using MONOPOLY;
 using PlayerInterface;
 
@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 {
     private Board board;
     private GameObject[] dice;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,8 @@ public class Game : MonoBehaviour
             board.players[i].player_ui = player_uis[i].GetComponent<PlayerUI>();
             board.players[i].player_ui.player_index = i;
         }
+        GameObject ui = GameObject.FindGameObjectWithTag("UI");
+        board.players[0].ui = ui.GetComponent<UI>();
 
         dice = GameObject.FindGameObjectsWithTag("Dice");
     }
@@ -32,7 +35,16 @@ public class Game : MonoBehaviour
         {
             Step();
         }
-    }
+        GameObject[] fundTexts = GameObject.FindGameObjectsWithTag("FundText");
+
+        foreach (GameObject textObject in fundTexts)
+        {
+            TMP_Text textComponent = textObject.GetComponent<TMP_Text>();  // Get the Text component
+            textComponent.text = textComponent.text = "Your Funds: $" + board.players[0].funds + "\nOpponent's Funds: $" + board.players[1].funds;
+
+            
+        }
+    
 
     void Step()
     {
@@ -52,4 +64,5 @@ public class Game : MonoBehaviour
 
         board.Step(results[0], results[1]);
     }
+}
 }

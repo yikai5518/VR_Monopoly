@@ -41,6 +41,7 @@ namespace MONOPOLY
         public List<int> items;
 
         public PlayerUI player_ui;
+        public UI ui;
 
         public Player()
         {
