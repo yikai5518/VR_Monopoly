@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseScript : MonoBehaviour
 {
@@ -175,6 +176,9 @@ public class BaseScript : MonoBehaviour
         { 50, 200, 600, 1400 }
     };
 
+    public Button yesButton;
+    public Button noButton;
+
     void Awake()
     {
         funds = new int[3];
@@ -260,7 +264,6 @@ public class BaseScript : MonoBehaviour
         if (ownership[curIndex] == playernum)
             return;
 
-        print("purchase()");
         TextMeshProUGUI txt;
         if (playernum == 1)
         {
@@ -312,6 +315,7 @@ public class BaseScript : MonoBehaviour
 
     public void arrivedOnCity(int playerNum, int curIndex)
     {
+        EnableButton();
         TextMesh txt;
         this.playernum = playerNum;
         this.curIndex = curIndex;
@@ -405,8 +409,6 @@ public class BaseScript : MonoBehaviour
     //button on, purchase,build,sell
     public void onyesclick()
     {
-        print("yes clicekd");
-        print(whatUserCanDo);
         if (whatUserCanDo == "purchase")
         {
             print("purchasing");
@@ -422,13 +424,15 @@ public class BaseScript : MonoBehaviour
         }
 
         UpdateFunds();
-        playernum = playernum == 1 ? 2 : 1;
+        //playernum = playernum == 1 ? 2 : 1;
+        DisableButton();
     }
 
     public void onnoclick()
     {
         //close the button tab
-        playernum = playernum == 1 ? 2 : 1;
+        //playernum = playernum == 1 ? 2 : 1;
+        DisableButton();
     }
 
     private void UpdateFunds()
@@ -438,5 +442,17 @@ public class BaseScript : MonoBehaviour
         txt.text = ("$" + funds[1]);
         txt = GameObject.Find("Player2Money").GetComponent<TextMeshProUGUI>();
         txt.text = ("$" + funds[2]);
+    }
+
+    public void DisableButton()
+    {
+        yesButton.interactable = false;
+        noButton.interactable = false;
+    }
+
+    public void EnableButton()
+    {
+        yesButton.interactable = true;
+        noButton.interactable = true;
     }
 }
