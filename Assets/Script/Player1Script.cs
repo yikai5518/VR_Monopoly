@@ -81,6 +81,8 @@ public class Player1Script : MonoBehaviour
     public void goToJail()
     {
         transform.position = waypoints[10].transform.position;
+        transform.rotation = Quaternion.Euler(0, 90, 0);
+
         waypointIndex = 11;
         curindex = 10;
         moveAllowed = false;

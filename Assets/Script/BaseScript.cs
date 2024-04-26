@@ -315,7 +315,6 @@ public class BaseScript : MonoBehaviour
 
     public void arrivedOnCity(int playerNum, int curIndex)
     {
-        EnableButton();
         TextMesh txt;
         this.playernum = playerNum;
         this.curIndex = curIndex;
@@ -328,12 +327,10 @@ public class BaseScript : MonoBehaviour
         {
             if (ownership[curIndex] == 0)
             {
-                print(funds[playerNum]);
-                print(lands[curIndex].price);
                 // Purchase Property
                 if (funds[playerNum] >= lands[curIndex].price)
                 {
-                    print("Can be purchased");
+                    EnableButton();
                     whatUserCanDo = "purchase";
                 }
                 else
@@ -347,7 +344,10 @@ public class BaseScript : MonoBehaviour
                     {
                         // Build House
                         if (funds[playerNum] >= lands[curIndex].build && lands[curIndex].numOfBuildings < 3)
+                        {
+                            EnableButton();
                             whatUserCanDo = "build";
+                        }
                         else
                             whatUserCanDo = "";
                     }
@@ -357,7 +357,12 @@ public class BaseScript : MonoBehaviour
                     // Pay Rent
                     // "sell"
                     if (landStatus[curIndex] == LandStatus.PROPERTY)
+                    {
                         funds[playerNum] -= rent[curIndex, lands[curIndex].numOfBuildings];
+                        int otherplayer = playerNum == 1 ? 2 : 1;
+                        funds[otherplayer] += rent[curIndex, lands[curIndex].numOfBuildings];
+                        whatUserCanDo = "";
+                    }
                 }
             }
 
@@ -370,20 +375,23 @@ public class BaseScript : MonoBehaviour
             else if (curIndex == 38)
                 funds[playerNum] -= 200;
 
+            whatUserCanDo = "";
+
             UpdateFunds();
         }
         else if (landStatus[curIndex] == LandStatus.CHANCE)
         {
-            
+            whatUserCanDo = "";
         }
         else if (landStatus[curIndex] == LandStatus.CHEST)
         {
-            
+            whatUserCanDo = "";
         }
         else if (landStatus[curIndex] == LandStatus.START)
         {
-            //funds[playerNum] += 200;
+            funds[playerNum] += 200;
 
+            whatUserCanDo = "";
             UpdateFunds();
         }
         else if (landStatus[curIndex] == LandStatus.GOTOJAIL)
@@ -392,9 +400,9 @@ public class BaseScript : MonoBehaviour
                 FindObjectOfType<Player1Script>().goToJail();
             else
                 FindObjectOfType<Player2Script>().goToJail();
+            whatUserCanDo = "";
         }
 
-        print(whatUserCanDo);
         //button on, purchase,build,sell
         if (
             whatUserCanDo == "purchase" ||
