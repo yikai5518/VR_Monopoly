@@ -55,7 +55,11 @@ public class Player2Script : MonoBehaviour
                 transform.position ==
                 waypoints[waypointIndex % waypoints.Length].transform.position
             )
-            {   if(transform.position == waypoints[0].transform.position){bs.funds[2]+=200;}// if the player passes by the start tile, +200 to p2's money
+            {
+                if (transform.position == waypoints[0].transform.position)
+                {
+                    bs.funds[2] += 200;
+                }// if the player passes by the start tile, +200 to p2's money
                 waypointIndex += 1;
             }
         }

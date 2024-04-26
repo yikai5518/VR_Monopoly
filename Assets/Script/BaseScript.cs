@@ -344,6 +344,8 @@ public class BaseScript : MonoBehaviour
                 {
                     // Pay Rent
                     // "sell"
+                    if (landStatus[curIndex] == LandStatus.PROPERTY)
+                        funds[playerNum] -= rent[curIndex, lands[curIndex].numOfBuildings];
                 }
             }
 
