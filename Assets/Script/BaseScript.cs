@@ -123,10 +123,10 @@ public class BaseScript : MonoBehaviour
         landStatus[36] = 3; // chance
         landStatus[4] = 4; // pay
         landStatus[38] = 4;
-        landStatus[8] = 5; // go to jail
-        landStatus[16] = 6; // free parking
+        landStatus[30] = 5; // go to jail
+        landStatus[20] = 6; // free parking
         landStatus[0] = 7; // start,no effect, will give 200 inside players script.
-        landStatus[24] = 7; // jail, but no effect
+        landStatus[10] = 7; // jail, but no effect
     }
 
     // Start is called before the first frame update
