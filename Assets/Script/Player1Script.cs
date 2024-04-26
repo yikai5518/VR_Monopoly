@@ -61,6 +61,12 @@ public class Player1Script : MonoBehaviour
             )
             {   
                 if(transform.position == waypoints[0].transform.position){bs.funds[1]+=200;} // if p1 passes by the start, +200 to p1's money
+
+                if (waypointIndex % 10 == 0)
+                {
+                    transform.Rotate(0, 90, 0);
+                }
+
                 waypointIndex += 1;
             }
         }

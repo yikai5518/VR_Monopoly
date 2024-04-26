@@ -10,7 +10,7 @@ public class Player2Script : MonoBehaviour
 
     public float moveSpeed = 1f;
 
-    public int waypointIndex = 0;
+    public int waypointIndex = 1;
 
     public static bool moveAllowed = false;
 
@@ -28,6 +28,7 @@ public class Player2Script : MonoBehaviour
             waypoints[i] = waypointsp1.transform.GetChild(39 - i + 1);
 
         transform.position = waypoints[0].position;
+        waypointIndex = 1;
     }
 
     // Update is called once per frame
@@ -55,7 +56,17 @@ public class Player2Script : MonoBehaviour
                 transform.position ==
                 waypoints[waypointIndex % waypoints.Length].transform.position
             )
-            {   if(transform.position == waypoints[0].transform.position){bs.funds[2]+=200;}// if the player passes by the start tile, +200 to p2's money
+            {
+                print("p2 move");
+                if (transform.position == waypoints[0].transform.position)
+                {
+                    bs.funds[2] += 200;
+                }// if the player passes by the start tile, +200 to p2's money
+
+                if (waypointIndex % 10 == 0)
+                {
+                    transform.Rotate(0, 90, 0);
+                }
                 waypointIndex += 1;
             }
         }
