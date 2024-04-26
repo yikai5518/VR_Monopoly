@@ -106,7 +106,6 @@ public class BaseScript : MonoBehaviour
     {
         p1money = 1300;
         p2money = 1300;
-        Array.Reverse (landNameArr);
         for (int i = 0; i < lands.Length; i++)
         {
             lands[i] = new Land(landNameArr[i], landPriceArr[i], 0);
@@ -154,35 +153,35 @@ public class BaseScript : MonoBehaviour
                     .GetComponent<TextMeshProUGUI>();
             txt.text += (landNameArr[curIndex] + "\n");
         }
-        if (index % 10 == 0 || index < 0 || index >= 40) throw new System.ArgumentException();
+        // if (index % 10 == 0 || index < 0 || index >= 40) throw new System.ArgumentException();
 
-            Spawner spawner = GameObject.FindGameObjectWithTag("Script").GetComponent<Spawner>();
-            Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
-            if (index > 0 && index < 10)
-            {
-                index -= 1;
-                Vector3 pos = new Vector3(-34 + index * 8 + num_houses[index] * 2, -10, 38);
-                spawner.SpawnHouse(playernum, pos, rot);
-            }
-            else if (index > 10 && index < 20)
-            {
-                index -= 11;
-                Vector3 pos = new Vector3(38, -10, 35 - index * 8 - num_houses[index] * 2);
-                spawner.SpawnHouse(playernum, pos, rot);
-            }
-            else if (index > 20 && index < 30)
-            {
-                index -= 21;
-                Vector3 pos = new Vector3(30 - index * 8 - num_houses[index] * 2, -10, -38);
-                spawner.SpawnHouse(playernum, pos, rot);
-            }
-            else if (index > 30 && index < 40)
-            {
-                index -= 31;
-                Vector3 pos = new Vector3(-38, -10, -29 + index * 8 + num_houses[index] * 2);
-                spawner.SpawnHouse(playernum, pos, rot);
-            }
-            num_houses[index] += 1;
+        //     Spawner spawner = GameObject.FindGameObjectWithTag("Script").GetComponent<Spawner>();
+        //     Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
+        //     if (index > 0 && index < 10)
+        //     {
+        //         index -= 1;
+        //         Vector3 pos = new Vector3(-34 + index * 8 + num_houses[index] * 2, -10, 38);
+        //         spawner.SpawnHouse(playernum, pos, rot);
+        //     }
+        //     else if (index > 10 && index < 20)
+        //     {
+        //         index -= 11;
+        //         Vector3 pos = new Vector3(38, -10, 35 - index * 8 - num_houses[index] * 2);
+        //         spawner.SpawnHouse(playernum, pos, rot);
+        //     }
+        //     else if (index > 20 && index < 30)
+        //     {
+        //         index -= 21;
+        //         Vector3 pos = new Vector3(30 - index * 8 - num_houses[index] * 2, -10, -38);
+        //         spawner.SpawnHouse(playernum, pos, rot);
+        //     }
+        //     else if (index > 30 && index < 40)
+        //     {
+        //         index -= 31;
+        //         Vector3 pos = new Vector3(-38, -10, -29 + index * 8 + num_houses[index] * 2);
+        //         spawner.SpawnHouse(playernum, pos, rot);
+        //     }
+        //     num_houses[index] += 1;
     }
 
     
