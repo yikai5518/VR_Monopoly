@@ -20,6 +20,12 @@ public class Player2Script : MonoBehaviour
     void Start()
     {
         bs = FindObjectOfType<BaseScript>();
+
+        GameObject waypointsp1 = GameObject.FindGameObjectWithTag("WaypointsP2");
+        waypoints = new Transform[32];
+        for (int i = 0; i < 32; ++i)
+            waypoints[i] = waypointsp1.transform.GetChild(i);
+
         transform.position = waypoints[0].position;
     }
 
