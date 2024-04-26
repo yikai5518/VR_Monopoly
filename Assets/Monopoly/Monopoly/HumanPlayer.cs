@@ -24,6 +24,22 @@ namespace MONOPOLY
                 return EDecision.NO;
         }
 
+        private EJailDecision PromptJailDecision()
+        {
+            UI.EJailDecision decision = UI.GetJailDecision();
+            switch (decision)
+            {
+                case UI.EJailDecision.PAY:
+                    return EJailDecision.PAY;
+                case UI.EJailDecision.ROLL:
+                    return EJailDecision.ROLL;
+                case UI.EJailDecision.CARD:
+                    return EJailDecision.CARD;
+                default:
+                    throw new System.ArgumentOutOfRangeException();
+            }
+        }
+
         public override EDecision DecideBuy(int index)
         {
             return PromptYesNoDecision();
@@ -31,7 +47,7 @@ namespace MONOPOLY
 
         public override EJailDecision DecideJail()
         {
-            return EJailDecision.PAY;
+            return PromptJailDecision();
         }
 
         public override EDecision DecideMortgage(int index)
@@ -44,24 +60,9 @@ namespace MONOPOLY
             return PromptYesNoDecision();
         }
 
-        //public override int DecideBuildHouse(int set)
-        //{
-        //    float[] Y = network.Propagate(adapter.pack);
-
-        //    float result = Y[5];
-        //    float money = adapter.ConvertHouseValue(result);
-
-        //    return (int)money;
-        //}
-
-        //public override int DecideSellHouse(int set)
-        //{
-        //    float[] Y = network.Propagate(adapter.pack);
-
-        //    float result = Y[6];
-        //    float money = adapter.ConvertHouseValue(result);
-
-        //    return (int)money;
-        //}
+        public override EDecision DecideBuildHouse(int index)
+        {
+            return PromptYesNoDecision();
+        }
     }
 }

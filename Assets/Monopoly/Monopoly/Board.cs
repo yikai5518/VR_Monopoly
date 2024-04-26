@@ -141,7 +141,6 @@ namespace MONOPOLY
         public EMode mode = EMode.ROLL;
 
         public Player[] players;
-        //public NetworkAdapter adapter;
         public RNG random;
 
         public int turn = 0;
@@ -156,20 +155,14 @@ namespace MONOPOLY
         public List<CardEntry> chest;
         //--------------------
 
-        //public Board(NetworkAdapter _adapter)
         public Board()
         {
             players = new Player[PLAYER_COUNT];
             random = new RNG();
 
-            // adapter = _adapter;
-
             for (int i = 0; i < PLAYER_COUNT; i++)
             {
-                players[i] = new Player();
-
-                //adapter.SetPosition(i, players[i].position);
-                // adapter.SetMoney(i, players[i].funds);           
+                players[i] = new Player();       
             }
 
             remaining = PLAYER_COUNT;
@@ -241,7 +234,6 @@ namespace MONOPOLY
 
             if (players[turn].state == Player.EState.JAIL)
             {
-                // adapter.SetTurn(turn);
                 Player.EJailDecision decision = players[turn].DecideJail();
 
                 if (decision == Player.EJailDecision.ROLL)
@@ -251,8 +243,6 @@ namespace MONOPOLY
                     {
                         players[turn].jail = 0;
                         players[turn].state = Player.EState.NORMAL;
-
-                        // adapter.SetJail(turn, 0);
 
                         doubleInJail = true;
                     }
@@ -266,8 +256,6 @@ namespace MONOPOLY
 
                             players[turn].jail = 0;
                             players[turn].state = Player.EState.NORMAL;
-
-                            // adapter.SetJail(turn, 0);
                         }
                     }
                 }
@@ -277,8 +265,6 @@ namespace MONOPOLY
 
                     players[turn].jail = 0;
                     players[turn].state = Player.EState.NORMAL;
-
-                    // adapter.SetJail(turn, 0);
                 }
                 else if (decision == Player.EJailDecision.CARD)
                 {
@@ -287,9 +273,6 @@ namespace MONOPOLY
                         players[turn].card--;
                         players[turn].jail = 0;
                         players[turn].state = Player.EState.NORMAL;
-
-                        // adapter.SetJail(turn, 0);
-                        // adapter.SetCard(turn, players[turn].card > 0 ? 1 : 0);
                     }
                     else
                     {
@@ -298,8 +281,6 @@ namespace MONOPOLY
                         {
                             players[turn].jail = 0;
                             players[turn].state = Player.EState.NORMAL;
-
-                            // adapter.SetJail(turn, 0);
                         }
                         else
                         {
@@ -311,8 +292,6 @@ namespace MONOPOLY
 
                                 players[turn].jail = 0;
                                 players[turn].state = Player.EState.NORMAL;
-
-                                // adapter.SetJail(turn, 0);
                             }
                         }
                     }
@@ -339,8 +318,6 @@ namespace MONOPOLY
                     players[turn].position = JAIL_INDEX;
                     players[turn].doub = 0;
                     players[turn].state = Player.EState.JAIL;
-
-                    // adapter.SetJail(turn, 1);
                 }
             }
 
