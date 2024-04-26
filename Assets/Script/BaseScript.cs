@@ -143,7 +143,7 @@ public class BaseScript : MonoBehaviour
     {
         if (curIndex % 10 == 0 || curIndex < 0 || curIndex >= 40) throw new System.ArgumentException();
 
-        Spawner spawner = GameObject.FindGameObjectWithTag("Script").GetComponent<Spawner>();
+        Spawner spawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>();
         Quaternion rot = Quaternion.Euler(new Vector3(-90, 0, 0));
 
         float offset = curIndex * 0.8f + num_houses[curIndex] * 0.25f;
